@@ -1,0 +1,9 @@
+# 풀이 참고: https://mainkey.tistory.com/20 
+
+def solution(phone_book):
+    sorBook = sorted(phone_book)
+    
+    for i in range(len(sorBook)-1):
+        if sorBook[i] == sorBook[i+1][:len(sorBook[i])]:
+            return False        
+    return True
