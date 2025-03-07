@@ -1,0 +1,37 @@
+def solution(participant, completion):
+    answer = 0
+    
+    participant.sort()
+    completion.sort()
+    
+    for i in range(len(completion)):
+        if participant[i] != completion[i]:
+            answer = participant[i]
+            break
+    if answer == 0:
+        answer = participant[-1]
+    
+    return answer
+
+# 예전 풀이
+'''
+def solution(participant, completion):
+    answer = ''
+    pIdx = 0
+    cIdx = 0
+    
+    while pIdx < len(participant):
+        if participant[pIdx] == completion[cIdx]:
+            participant[pIdx] = 0
+            completion[cIdx] = 0
+        cIdx += 1
+        if cIdx == len(participant)-1:
+            cIdx = 0
+            pIdx += 1
+
+                
+    for i in participant:
+        if i != 0:
+            answer = i
+    return answer
+'''
