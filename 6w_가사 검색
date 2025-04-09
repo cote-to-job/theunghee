@@ -1,0 +1,33 @@
+from bisect import bisect_left, bisect_right
+import copy
+
+def counts(arr,t):
+    a=bisect_left(arr,t.replace("?","a"))
+    z=bisect_right(arr,t.replace("?","z"))
+    return z-a
+
+def solution(words, queries):
+    result = []
+    
+    words.sort()
+    
+    #words_reverse = copy.deepcopy(words) # 깊은 복사 - 안의 객체는 공유
+    words_reverse = copy.copy(words) # 얕은 복사 - 현재는 words 안에 객체 없어서 얕은 복사 가능
+    words_reverse=[i[::-1] for i in words_reverse] # 각 단어 역순
+    words_reverse.sort() # 역순 단어들 리스트 안에서 정렬
+    
+    new_words_reverses={}
+    new_wordss={}
+
+    for q in queries:
+        if q[0] == "?":
+            if len(q) not in new_words_reverses:
+                # 쿼리와 글자수 같은 word를 value로 글자수를 key으로 저장
+                # {5: ['emarf', 'oakak', 'odorf', 'tnorf', 'tsorf']}
+                new_words_reverses[len(q)] = [i for i in words_reverse if len(i) == len(q)]
+            result.append(counts(new_words_reverses[len(q)],q[::-1]))
+        else:
+            if len(q) not in new_wordss:
+                new_wordss[len(q)]=[i for i in words if len(i)==len(q)]
+            result.append(counts(new_wordss[len(q)],q))
+    return result
