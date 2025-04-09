@@ -1,0 +1,43 @@
+
+def solution(numbers, hand):
+    answer = ''
+    
+    currLeft = [3,0]
+    currRight = [3,2]
+    curr = [0,0]
+
+    for num in numbers:
+        if num == 1 or num == 4 or num == 7:
+            answer += 'L'
+            currLeft = [num//3, 0]
+        elif num == 3 or num == 6 or num == 9:
+            answer += 'R'
+            currRight = [num//4, 2]
+        else:
+            if num == 2:
+                curr = [0,1]
+            elif num == 5:
+                curr = [1,1]
+            elif num == 8:
+                curr = [2,1]
+            elif num == 0:
+                curr = [3,1]
+            
+            dis_l = abs(curr[0] - currLeft[0]) + abs(curr[1] - currLeft[1])
+            dis_r = abs(curr[0] - currRight[0]) + abs(curr[1] - currRight[1])
+            
+            if dis_l < dis_r:
+                answer += 'L'
+                currLeft = curr
+            elif dis_l > dis_r:
+                answer += 'R'
+                currRight = curr
+            else: # 같을 때
+                if hand == 'left':
+                    answer += 'L'
+                    currLeft = curr
+                else:
+                    answer += 'R'
+                    currRight = curr
+            
+    return answer
