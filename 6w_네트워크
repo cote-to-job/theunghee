@@ -1,0 +1,15 @@
+def solution(n, computers):
+    def dfs(row, computers):
+        #TODO: Interate i,j -> j,i 네트워크형성 (0, 1 & 1,0 ) -> (1, 2 & 2,1)
+        for adj in range(n):
+            if computers[row][adj] == 1:
+                computers[row][adj] = 0 
+                computers[adj][row] = 0 
+                dfs(adj, computers) 
+    
+    answer = 0
+    for r in range(len(computers)):
+        if computers[r][r] == 1:
+            dfs(r, computers)
+            answer += 1 
+    return answer
