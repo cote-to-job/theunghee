@@ -1,0 +1,20 @@
+import collections
+
+def solution(gems):
+    num = len(set(gems)) # 보석 종류의 개수
+    result = []
+
+    left = 0
+    counter = collections.Counter() # 횟수 세기 위함
+    for right in range(len(gems)):
+        counter[gems[right]] += 1 # Counter({'DIA': 1})
+        right += 1
+        while len(counter) == num: # counter에 들어간 보석 수가 보석 종류 수와 같을 때 반복문 실행
+            # 최소로 만들기 위해
+            counter[gems[left]] -= 1
+            if counter[gems[left]] == 0:
+                del counter[gems[left]]
+            left += 1
+            result.append([left, right])
+
+    return sorted(result, key = lambda x: (x[1]-x[0], x[0]))[0]
