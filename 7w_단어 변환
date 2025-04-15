@@ -1,0 +1,32 @@
+def solution(begin, target, words):
+    if target not in words:  #타깃이 애초에 없을 경우 변환이 안되므로 0 리턴.
+        return 0
+
+    N = len(words) + 1
+    floyd = [[51] * N for _ in range(N)]  #begin에서 해당 단어로 바꿀 수 있는 최대값은 50이다.
+
+    words.insert(0,begin)
+
+    for i in range(N): # words 인덱스
+        for j in range(N): # words[i] 인덱스
+            if i == j: # i,j가 같은 곳을 지나는 경우 없으니, 0 삽입
+                floyd[i][j] = 0
+            else:
+                cnt = 0
+                for idx,ch in enumerate(words[i]): # 현재 단어를 ch에 한 글자씩 담기
+                    if ch != words[j][idx]:
+                        cnt += 1
+                if cnt == 1: # 다른 게 1개일 경우
+                    floyd[i][j] = 1
+
+    # 최소 경로 탐색
+    for transit in range(N):
+        for start in range(N):
+            for destination in range(N):
+                floyd[start][destination] = min(floyd[start][transit] + floyd[transit][destination], floyd[start][destination])
+
+    #타겟까지의 최소 변환 횟수가 51보다 작아야 해당 값을 리턴.
+    if floyd[0][words.index(target)] < 51:
+        return floyd[0][words.index(target)]
+    else:  #아니면 변환이 안되는 경우이므로 0 리턴.
+        return 0
