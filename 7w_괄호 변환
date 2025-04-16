@@ -1,0 +1,42 @@
+def check(s):
+    stack = []
+
+    for i in s:
+        if i == '(':
+            stack.append(i)
+        else:
+            if len(stack) == 0:
+                return False
+            stack.pop()
+    return True
+
+# 왼쪽 괄호, 오른쪽 괄호 나눠 담기
+def divide(P):
+    left, right = 0,0
+    for i in range(len(P)):
+        if P[i] == '(':
+            left += 1
+        else:
+            right += 1
+        if left == right: # 균형잡힌 괄호 문자열이라 left와 right의 개수가 같을 때 리턴
+            return P[:i+1], P[i+1:]
+
+def solution(p):
+    if not p:
+        return ''
+
+    u, v = divide(p)
+
+    if check(u): # 문자열 u가 "올바른 괄호 문자열" 이라면 문자열 v에 대해 1단계부터 다시 수행
+        return u + solution(v)
+    else: # 문자열 u가 "올바른 괄호 문자열"이 아니라면
+        answer = '(' # 빈 문자열에 첫 번째 문자로 '('를 붙임
+        answer += solution(v) # 문자열 v에 대해 1단계부터 재귀적으로 수행한 결과 문자열을 이어 붙임
+        answer += ')' # ')'를 다시 붙임
+
+        for s in u[1:len(u)-1]: # u의 첫 번째와 마지막 문자를 제거, 나머지 문자열의 괄호 방향을 뒤집어서 뒤에 붙임
+            if s == '(':
+                answer += ')'
+            else:
+                answer += '('
+        return answer
