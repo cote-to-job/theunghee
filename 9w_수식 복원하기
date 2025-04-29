@@ -4,9 +4,12 @@ def Ten2N(n, num):
         return "0"
     
     answer = ""
-    for idx in range(2, -1, -1):
+    for idx in range(2, -1, -1): # 제곱수를 2부터 0까지 역순(수식의 숫자 A, B는 음이 아닌 두 자릿수 이하의 정수이기 때문에 n^2, n^1, n^0만 따짐)
         div = num // (n**idx)
-        if answer or div:
+        # answer가 비어있지 않거나 div가 0이 아닌 경우.
+        if answer or div: 
+            # answer 비어있지 않으면 첫 번째 자리 아니라서 0 들어가도 됨.
+            # answer가 비어 있는데, div가 0이면, 첫 번째 자리라서 불필요한 0 넣지 않기 위함
             answer += str(div)
         num = num % (n**idx)
         
