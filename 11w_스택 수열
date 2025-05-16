@@ -1,0 +1,29 @@
+import sys
+
+n = int(sys.stdin.readline())
+stack = []  # 스택
+result = []  # +, - 결과 저장
+curr = 1
+possible = True
+
+for _ in range(n):
+    inp = int(sys.stdin.readline())
+
+    # curr부터 inp까지 push
+    while curr <= inp:
+        stack.append(curr)
+        result.append('+')
+        curr += 1
+
+    # stack의 top이 inp이면 pop
+    if stack and stack[-1] == inp:
+        stack.pop()
+        result.append('-')
+    else:
+        possible = False
+        break
+
+if possible:
+    print('\n'.join(result))
+else:
+    print('NO')
